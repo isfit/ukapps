@@ -5,7 +5,7 @@
  * should not be modified by hand.
  */
 
-package no.uka.trygthjem;
+package com.phonegap;
 
 public final class R {
     public static final class attr {

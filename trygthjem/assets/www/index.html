@@ -1,10 +1,89 @@
-<!DOCTYPE HTML>
 <html>
-<head>
-<title>PhoneGap</title>
-<script type="text/javascript" charset="utf-8" src="phonegap.js"></script>
-</head>
-<body>
-<h1>Hello World</h1>
-</body>
+	<head>
+    </head>
+	<body>
+		<button onclick="login()">Login</button>
+		<button onclick="me()">Me</button>
+		<button onclick="getSession()">Get session</button>
+		<button onclick="getLoginStatus()">Get login</button>
+		<button onclick="logout()">Logout</button>
+
+        <div id="data"></div>
+
+        <!-- phonegap -->
+		<script src="phonegap-1.0.0.js"></script>
+	    <!-- phonegap facebook plugin -->
+		<script src="pg-plugin-fb-connect.js"></script>
+	    <!-- facebook js sdk -->
+		<script src="facebook_js_sdk.js"></script>
+        
+		<script>
+
+            FB.Event.subscribe('auth.login', function(response) {
+                alert('auth.login event');
+            });
+            
+            FB.Event.subscribe('auth.logout', function(response) {
+                alert('auth.logout event');
+            });
+            
+            FB.Event.subscribe('auth.sessionChange', function(response) {
+                alert('auth.sessionChange event');
+            });
+            
+            FB.Event.subscribe('auth.statusChange', function(response) {
+                alert('auth.statusChange event');
+            });
+            
+            function getSession() {
+                alert(JSON.stringify(FB.getSession()));
+            }
+            
+            function getLoginStatus() {
+                FB.getLoginStatus(function(response) {
+                    if (response.session) {
+                        alert('logged in');
+                    } else {
+                        alert('not logged in');
+                    }
+                });
+            }
+            
+            function me() {
+                FB.api('/me/friends', function(response) {
+                    var data = document.getElementById('data');
+                    response.data.forEach(function(item) {
+                        var d = document.createElement('div');
+                        d.innerHTML = item.name;
+                        data.appendChild(d);
+                    });
+                });
+            }
+            
+            function logout() {
+                FB.logout(function(response) {
+                    alert('logged out');
+                });
+            }
+            
+            function login() {
+                FB.login(
+                    function(e) {
+                        alert(e);
+                    },
+                    { perms: "email" }
+                );
+            }
+            
+            document.addEventListener('deviceready', function() {
+                  try {
+                    FB.init({ appId: "127486214017846", nativeInterface: PG.FB });
+                    document.getElementById('data').innerHTML = "";
+                  } catch (e) {
+                    alert(e);
+                  }
+                }, false);
+        </script>
+        <div id="log"></div>
+	</body>
 </html>
