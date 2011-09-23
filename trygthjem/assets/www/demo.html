@@ -1,0 +1,96 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <title>daginge.com</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="http://code.jquery.com/mobile/1.0b3/jquery.mobile-1.0b3.min.css" />
+    <script src="http://code.jquery.com/jquery-1.6.2.min.js"></script>
+    <script src="http://code.jquery.com/mobile/1.0b3/jquery.mobile-1.0b3.min.js"></script>
+    <script src="application.js"></script>
+  </head>
+  <body>
+    <div data-role="page" id="main">
+      <div data-role="header">
+        <h1>UKA Trygt Hjem</h1>
+      </div>
+      <div data-role="content" id="one">
+        <a href="#friends-old" data-role="button">OLD Ta meg hjem</a>
+        <a href="#friends" data-role="button">Ta meg hjem</a>
+        <a href="" data-role="button">Taxi</a>
+        <a href="" data-role="button">Nattbuss</a>
+      </div>
+      <div data-role="footer">
+        <h6>Du er awesome!</h6>
+      </div>
+    </div>
+    <div data-role="page" id="friends-old">
+      <div data-role="header">
+        <h1>Venner på Samfundet</h1>
+      </div>
+      <div data-role="content">
+        <ul id="friends" data-role="listview">
+          <li><img src="http://placehold.it/80x80"/>Dag-Inge Aas</li>
+          <li><img src="http://placehold.it/80x80"/>Iver Dihle Skjervum</li>
+        </ul>
+      </div>
+      <div data-role="footer">
+        <h4></h4>
+      </div>
+    </div>
+    <div data-role="page" id="friends">
+      <div data-role="header">
+        <h1>Venner på Samfundet</h1>
+      </div>
+      <div data-role="content">
+        <div class="ui-grid-b">
+          <div class="ui-block-a"><a href="#friends-1"><img src="http://placehold.it/80x80"/></a></div>
+          <div class="ui-block-b"><img src="http://placehold.it/80x80"/></div>
+          <div class="ui-block-c"><img src="http://placehold.it/80x80"/></div>
+        </div>
+        <div class="ui-grid-b">
+          <div class="ui-block-a"><img src="http://placehold.it/80x80"/></div>
+          <div class="ui-block-b"><img src="http://placehold.it/80x80"/></div>
+          <div class="ui-block-c"><img src="http://placehold.it/80x80"/></div>
+        </div>
+      </div>
+      <div data-role="footer">
+        <h4></h4>
+      </div>
+    </div>
+    <div data-role="page" id="friends-1">
+      <div data-role="header">
+        <h1>Dag-Inge Aas</h1>
+      </div>
+      <div data-role="content">
+        <p>Last seen: 17 minutes ago at Klubben</p>
+        <a href="#message" data-rel="dialog" data-role="button">Send en melding</a>
+      </div>
+      <div data-role="footer">
+        <h4></h4>
+      </div>
+    </div>
+    <div data-role="page" id="message">
+      <div data-role="header">
+        <h1>Chatting with Dag-Inge Aas</h1>
+      </div>
+      <div data-role="content" data-theme="c">
+        <ul data-role="listview">
+          <li>Hvor er du?<img src="http://placehold.it/80x80"/></li>
+          <li><img src="http://placehold.it/80x80"/>Jeg gikk akkurat ut fra Klubben. Hvor er du?</li>
+        </ul>
+        <form name="chat" action="" method="get">
+          <div data-role="fieldcontain">
+            <input type="text" name="message" id="chat-message" value="" placeholder="Si noe..."/>
+          </div>
+          <div data-role="fieldcontain">
+            <input type="submit" data-role="button" value="Submit" id="chat-submit"">
+          </div>
+        </form>
+      </div>
+      <div data-role="footer">
+        <h4></h4>
+      </div>
+    </div>
+  </body>
+</html>
