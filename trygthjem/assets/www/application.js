@@ -136,25 +136,28 @@
                 FB.login(
                     function(e) {
                         console.log(e);
-                       	session = FB.getSession();
-                       	UkaApi('auth/login', function(data){console.log(data); ukaapi_token = data;}, {facebookToken: session.access_token});
+                        console.log("----------------------------__FFS_------------------------");
+                       	UkaApi('auth/login', function(data){console.log(data); ukaapi_token = data;}, {facebookToken: FB.getSession().access_token});
                        	UkaApi('users/me/friends', function(data) { console.log(data); alert(JSON.stringify(data)); }, {token: ukaapi_token});                
                     },
                     { perms: "email" }
                 );
             }
             
-            document.addEventListener('deviceready', function() {
-                  try {
-                    FB.init({ 
-                    	appId: "78925134548", 
-                    	nativeInterface: PG.FB,
-                    });
-                	login();
-                  } catch (e) {
-                    alert(e);
-                  }
-                }, false);
+            document.addEventListener('deviceready', 
+            	function(){
+	            	try {
+	                	FB.init({
+	                    	appId: "111446192243028",
+	                    	nativeInterface: PG.FB,
+	                    	cookie: true,
+	                    	xfbml: true
+	                    });
+	                 	login();
+	             	} catch (e) {
+	                   	alert(e);
+	                }
+        		}, false);
             
             function onUpdate() {
             	$('.friend').click(function() {
