@@ -8,6 +8,6 @@ public class TrygthjemActivity extends DroidGap {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        super.loadUrl("file:///android_asset/www/demo.html");
+        super.loadUrl("file:///android_asset/www/index.html");
     }
 }
