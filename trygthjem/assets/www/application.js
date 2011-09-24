@@ -1,19 +1,22 @@
 
+			var ukaapi_token = "adsd";
+			
+			
             FB.Event.subscribe('auth.login', function(response) {
-                alert('auth.login event');
+                console.log('auth.login event');
                 populateFriendsList();
             });
             
             FB.Event.subscribe('auth.logout', function(response) {
-                alert('auth.logout event');
+                console.log('auth.logout event');
             });
             
             FB.Event.subscribe('auth.sessionChange', function(response) {
-                alert('auth.sessionChange event');
+                console.log('auth.sessionChange event');
             });
             
             FB.Event.subscribe('auth.statusChange', function(response) {
-                alert('auth.statusChange event');
+                console.log('auth.statusChange event');
             });
             
             function populateFriendsList() {
@@ -45,7 +48,7 @@
             }
             
             function getSession() {
-                alert(JSON.stringify(FB.getSession()));
+                console.log(JSON.stringify(FB.getSession()));
             }
             
             function getLoginStatus() {
@@ -85,11 +88,33 @@
                 });
             }
             
+            
+            function UkaApi(url, onReceive, parameters){
+            	var url = 'http://findmyapp.net/findmyapp/'+url+'.json';
+          		var accessor = {
+               		consumerKey: '6b2d7fe03b4bb7ea775f63119e92ea468204aaf1',
+               		consumerSecret: 'bab92e0c1945459dfea90772b36189d9e68dfdae'
+               	};
+               	var message = {
+               		action: url,
+               		method: "GET",
+               		parameters: parameters
+               	};
+               	OAuth.completeRequest(message, accessor);
+	           	OAuth.SignatureMethod.sign(message, accessor);
+	           	url = url+'?'+OAuth.formEncode(message.parameters);
+				console.log(url);           	
+	           	$.ajax({url: url, success: onReceive, async: false });
+            }
+            
             function login() {
             	alert('login');
                 FB.login(
                     function(e) {
-                        alert(e);
+                        console.log(e);
+                       	session = FB.getSession();
+                       	UkaApi('auth/login', function(data){console.log(data); ukaapi_token = data;}, {facebookToken: session.access_token});
+                       	UkaApi('users/me/friends', function(data) { console.log(data); alert(JSON.stringify(data)); }, {token: ukaapi_token});                
                     },
                     { perms: "email" }
                 );
@@ -97,7 +122,7 @@
             
             document.addEventListener('deviceready', function() {
                   try {
-                    FB.init({ appId: "127486214017846", nativeInterface: PG.FB });
+                    FB.init({ appId: "144871272275360", nativeInterface: PG.FB });
                 	login();
                   } catch (e) {
                     alert(e);
