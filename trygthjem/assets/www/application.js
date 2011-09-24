@@ -18,33 +18,57 @@
             FB.Event.subscribe('auth.statusChange', function(response) {
                 console.log('auth.statusChange event');
             });
+     
             
             function populateFriendsList() {
-            	var friends = $('#facebook-friends');
-            	friends.empty();
-            	friends.append('<div>');
             	FB.api('/me/friends', function(response) {
+            		var friends = $('#friends-content');
+            		friends.empty();
+            		var friendslist = "<div>";
             		var counter = 0;
+            		var limit = 0;
             		var letter = 'a';
                     response.data.forEach(function(item) {
-                    	if(counter == 0) {
-                    		friends.append('</div>');
-                        	friends.append('<div class="ui-grid-b>"');
-                        	letter = 'a';
+                    	if(limit < 6) {
+	                    	if(counter == 0) {
+	                    		friendslist += ('</div>');
+	                        	friendslist += ('<div class="ui-grid-b">');
+	                        	letter = 'a';
+	                    	}
+	                    	else if(counter == 1) {
+	                    		letter = 'b';
+	                    	}
+	                    	else {
+	                    		letter = 'c';
+	                    		counter = -1;
+	                    	}
+	                        friendslist += ('<div class="ui-block-'+letter+'"><a href="#friend" class="friend" data-id="'+item.id+'"><img width="80" height="80" src="http://graph.facebook.com/'+item.id+'/picture"><br>test</a></div>');
+	                        counter++;
+	                        limit++;
                     	}
-                    	else if(counter == 1) {
-                    		letter = 'b';
-                    	}
-                    	else {
-                    		letter = 'c';
-                    		counter = -1;
-                    	}
-                        friends.append('<div class="ui-block-'+letter+'">'+letter+'</div>');
-                        
-                        counter++;
                     });
+            		friendslist += "</div>";
+            		friends.append(friendslist);
+            		onUpdate();
                 });
-            	friends.append('</div>');
+            }
+            
+            function populateFriend(id) {
+            	$('#friend-name').empty();
+            	$('#friend-content').html('<p>Loading...</p>')
+            	FB.api(id+'', function(response){
+            		$('#friend-name').html(response.name);
+            		$('#friend-content').empty();
+            		$('#friend-content').append('<p>Last seen 17 minutes ago at Klubben</p>');
+            		$('#friend-content').append('<a class="friend-button" href="'+response.link+'" data-role="button">Go to Facebook</a>');
+            		
+            		findContact(response.name);
+            		
+            		// Update UI
+            		$('#friend').page();
+            		$('.friend-button').button();
+            		
+            	})
             }
             
             function getSession() {
@@ -116,21 +140,54 @@
                        	UkaApi('auth/login', function(data){console.log(data); ukaapi_token = data;}, {facebookToken: session.access_token});
                        	UkaApi('users/me/friends', function(data) { console.log(data); alert(JSON.stringify(data)); }, {token: ukaapi_token});                
                     },
-                    { perms: "email" }
+                    { perms: "user_mobile_phone" }
                 );
             }
             
             document.addEventListener('deviceready', function() {
                   try {
-                    FB.init({ appId: "144871272275360", nativeInterface: PG.FB });
+                    FB.init({ 
+                    	appId: "111446192243028", 
+                    	nativeInterface: PG.FB,
+                    	cookie: true,
+                    	xfbml: true,});
                 	login();
                   } catch (e) {
                     alert(e);
                   }
                 }, false);
+            
+            function onUpdate() {
+            	$('.friend').click(function() {
+            		populateFriend($(this).data("id"));
+            	});
+            }
+            
+            function contactFound(contact) {
+            	alert('Contact found ' + JSON.stringify(contact));
+            	$.each(contact.phoneNumbers, function(index, value){
+            		alert(value.value);
+            		var phoneNumber = value.value;
+            		$('#friend-content').append('<a href="tel:'+phoneNumber+ '" data-role="button">Call '+phoneNumber+'</a>');            		
+            		
+            	});
+//            	contact.phoneNumbers.forEach(function(phoneNumber) {
+//            	});
+            }
+            
+            function contactNotFound(contact) {
+            	alert('Contact not found ' + JSON.stringify(contact));
+            }
+            
+            function findContact(name) {
+            	var options = new ContactFindOptions();
+            	options.filter=name; 
+            	var fields = ["displayName", "name", "phoneNumbers"];
+            	navigator.contacts.find(fields, contactFound, contactNotFound, options);
+            }
 
-$(function() {
-
-	
-	
+$(document).ready(function() {
+	$('.friend').click(function() {
+		populateFriend($(this).data("id"));
+	})
 });
