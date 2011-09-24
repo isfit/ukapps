@@ -115,17 +115,16 @@
                     function(e) {
                         //alert(e);
                     },
-                    { perms: "user_mobile_phone" }
+                    { perms: "email" }
                 );
             }
             
             document.addEventListener('deviceready', function() {
                   try {
                     FB.init({ 
-                    	appId: "111446192243028", 
+                    	appId: "78925134548", 
                     	nativeInterface: PG.FB,
-                    	cookie: true,
-                    	xfbml: true,});
+                    });
                 	login();
                   } catch (e) {
                     alert(e);
@@ -138,20 +137,15 @@
             	});
             }
             
-            function contactFound(contact) {
-            	alert('Contact found ' + JSON.stringify(contact));
-            	$.each(contact.phoneNumbers, function(index, value){
-            		alert(value.value);
+            function contactFound(contacts) {
+            	$.each(contacts[0].phoneNumbers, function(index, value){
             		var phoneNumber = value.value;
-            		$('#friend-content').append('<a href="tel:'+phoneNumber+ '" data-role="button">Call '+phoneNumber+'</a>');            		
-            		
+            		$('#friend-content').append('<a class="friend-button" href="tel:'+phoneNumber+ '" data-role="button">Call '+phoneNumber+'</a>');            		
+            		$('.friend-button').button();
             	});
-//            	contact.phoneNumbers.forEach(function(phoneNumber) {
-//            	});
             }
             
-            function contactNotFound(contact) {
-            	alert('Contact not found ' + JSON.stringify(contact));
+            function contactNotFound() {
             }
             
             function findContact(name) {
