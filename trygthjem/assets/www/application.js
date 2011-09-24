@@ -121,7 +121,11 @@
             
             document.addEventListener('deviceready', function() {
                   try {
-                    FB.init({ appId: "127486214017846", nativeInterface: PG.FB });
+                    FB.init({ 
+                    	appId: "111446192243028", 
+                    	nativeInterface: PG.FB,
+                    	cookie: true,
+                    	xfbml: true,});
                 	login();
                   } catch (e) {
                     alert(e);
