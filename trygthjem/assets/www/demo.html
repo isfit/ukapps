@@ -7,7 +7,17 @@
     <link rel="stylesheet" href="http://code.jquery.com/mobile/1.0b3/jquery.mobile-1.0b3.min.css" />
     <script src="http://code.jquery.com/jquery-1.6.2.min.js"></script>
     <script src="http://code.jquery.com/mobile/1.0b3/jquery.mobile-1.0b3.min.js"></script>
+    
+        <!-- phonegap -->
+		<script src="phonegap-1.0.0.js"></script>
+	    <!-- phonegap facebook plugin -->
+		<script src="pg-plugin-fb-connect.js"></script>
+	    <!-- facebook js sdk -->
+		<script src="facebook_js_sdk.js"></script>
+
     <script src="application.js"></script>
+        
+        
   </head>
   <body>
     <div data-role="page" id="main">
@@ -15,7 +25,6 @@
         <h1>UKA Trygt Hjem</h1>
       </div>
       <div data-role="content" id="one">
-        <a href="#friends-old" data-role="button">OLD Ta meg hjem</a>
         <a href="#friends" data-role="button">Ta meg hjem</a>
         <a href="" data-role="button">Taxi</a>
         <a href="" data-role="button">Nattbuss</a>
@@ -48,10 +57,7 @@
           <div class="ui-block-b"><img src="http://placehold.it/80x80"/></div>
           <div class="ui-block-c"><img src="http://placehold.it/80x80"/></div>
         </div>
-        <div class="ui-grid-b">
-          <div class="ui-block-a"><img src="http://placehold.it/80x80"/></div>
-          <div class="ui-block-b"><img src="http://placehold.it/80x80"/></div>
-          <div class="ui-block-c"><img src="http://placehold.it/80x80"/></div>
+        <div id="facebook-friends">
         </div>
       </div>
       <div data-role="footer">
