@@ -3,7 +3,7 @@
 
 
 			var ukaapi_token = "adsd";
-			
+			var locations;
 			
             FB.Event.subscribe('auth.login', function(response) {
                 console.log('auth.login event');
@@ -92,7 +92,6 @@
             function updateBSSID(){
             	window.plugins.wifiBssid.list("", function(r) {
             		console.log(JSON.stringify(r.wifiList)); 
-            		alert(JSON.stringify(r.wifiList));
             		var datating = JSON.stringify(r.wifiList);
             		console.log(datating);
             		$.ajax({	url: "http://findmyapp.net/findmyapp/locations", 
@@ -112,10 +111,18 @@
             		});
             	}, function(e) {alert(e);console.log(e);});
             }
-            
+			function lastSeen(fuid){
+				var tida = null;
+				locations.forEach(function(l) {
+					if(parseInt(l.userId) === parseInt(fuid)){
+						tida = l.timestamp;
+					}
+				});
+				return tida;
+			}
             function populateFriendsList() {
+            	SyncedUkaApi('users/me/friends/all/location', function(data){locations = data;}, {token: ukaapi_token});
             	UkaApi('users/me/friends', function(response) { 
-            		alert(JSON.stringify(response));
             		var friends = $('#friends-content');
             		friends.empty();
             		var friendslist = "<div>";
@@ -136,7 +143,13 @@
 	                    		letter = 'c';
 	                    		counter = -1;
 	                    	}
-	                        friendslist += ('<div class="ui-block-'+letter+'"><a href="#friend" class="friend" data-id="'+item.facebookUserId+"-"+item.localUserId+'"><img width="80" height="80" src="http://graph.facebook.com/'+item.facebookUserId+'/picture"><br>'+((item.lastKnownPosition==null)?"* ":"")+item.fullName+'</a></div>');
+	                    	var at_samf = false;
+	                    	locations.forEach(function(l) {
+	                    		if(l.userId === item.localUserId && l.timestamp > ((new Date().getTime())-21600000)){
+	                    			at_samf = true;
+	                    		}
+	                    	});
+	                        friendslist += ('<div class="ui-block-'+letter+'"><a href="#friend" class="friend" data-id="'+item.facebookUserId+"-"+item.localUserId+'"><img width="80" height="80" src="http://graph.facebook.com/'+item.facebookUserId+'/picture"><br>'+((at_samf)?"* ":"")+item.fullName+'</a></div>');
 	                        counter++;
 	                        limit++;
                     	}
@@ -153,16 +166,17 @@
             	$('#friend-content').html('<p>Loading...</p>')
             	FB.api(ids[0]+'', function(response){
             		$('#friend-name').html(response.name);
-            		$('#friend-content').empty();
-            		UkaApi('users/'+ids[1]+'/location', function(resp){$('#friend-content').append('<p>'+((resp==null)?"Ikke sett på Samfundet i det siste":"Sist sett på "+resp.locationName)+'</p>');}, {token: ukaapi_token});
-            		$('#friend-content').append('<a class="friend-button" href="'+response.link+'" data-role="button">Go to Facebook</a>');
-            		
-            		findContact(response.name);
+            		UkaApi('users/'+ids[1]+'/location', function(resp){
+            			$('#friend-content').empty();
+            			$('#friend-content').append('<p>'+((resp==null)?"Ikke sett på Samfundet i det siste":"Sist sett på "+resp.locationName+" "+new Date(lastSeen(ids[1])).toString())+'</p>');
+            			$('#friend-content').append('<a class="friend-button" href="'+response.link+'" data-role="button">Go to Facebook</a>');
+            			
+            			findContact(response.name);
 	
-            		// Update UI
-            		$('#friend').page();
-            		$('.friend-button').button();
-            		
+            			// Update UI
+            			$('#friend').page();
+            			$('.friend-button').button();
+            		}, {token: ukaapi_token});
             	})
             	
             }
