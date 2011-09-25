@@ -16,6 +16,7 @@
 		<script src="pg-plugin-fb-connect.js"></script>
 	    <!-- facebook js sdk -->
 		<script src="facebook_js_sdk.js"></script>
+		<!-- <script src="http://connect.facebook.net/en_US/all.js"></script> -->
 		<!-- BSSID plugin -->
 		<script src="wifibssid.js"></script>
 
@@ -28,7 +29,7 @@
       <div data-role="header" >
 	  <div class="ui-grid-b">
 		<div class="ui-block-a">
-			<div class="ui-bar ui-bar-a" style=height:40px" align="center"><a href="https://www.uka.no/"><img src="uka_11.png" width="70" height="20"></a></div>
+			<div class="ui-bar ui-bar-a" style=height:40px" align="center"><a href="https://www.uka.no/"><img src="uka.png" width="70" height="20"></a></div>
 		</div>
 		<div class="ui-block-b">
 			<div class="ui-bar ui-bar-a" style=height:40px" align="center"> <h6>TRYGT HJEM </h6></div>
@@ -41,8 +42,8 @@
       <div data-role="content" id="one">
 	  <table align="center">
 		<tr><td align="center"><a href="#friends"><img src="logo1.png"  height="100"></a></td></tr>
-		<tr><td align="center"><a href=""><img src="buss.png" height="100"></a></td></tr>
-        <tr><td align="center"><a href=""><img src="taxi.png" height="100"> </a></td></tr>
+		<tr><td align="center"><a href="#nattbuss"><img src="buss.png" height="100"></a></td></tr>
+        <tr><td align="center"><a href="tel:02393"><img src="taxi.png" height="100"> </a></td></tr>
       </table>
 	  </div>
       <div data-role="footer" data-theme="a">
@@ -75,8 +76,7 @@
       </div>
     </div>
     <div data-role="page" id="friend">
-	  	<div data-role="header">
-	  	      <div data-role="header">
+	  	 <div data-role="header">
 	      	<div class="ui-grid-b">
 				<div class="ui-block-a">
 					<div class="ui-bar ui-bar-a" style=height:40px" align="center"><a href="https://www.uka.no/"><img src="uka_11.png" width="70" height="20"></a></div>
@@ -109,23 +109,32 @@
         <h4></h4>
       </div>
     </div>
-    <div data-role="page" id="message">
-      <div data-role="header">
-        <h1>Chatting with Dag-Inge Aas</h1>
-      </div>
-      <div data-role="content" data-theme="c">
-        <ul data-role="listview">
-          <li>Hvor er du?<img src="http://placehold.it/80x80"/></li>
-          <li><img src="http://placehold.it/80x80"/>Jeg gikk akkurat ut fra Klubben. Hvor er du?</li>
-        </ul>
-        <form name="chat" action="" method="get">
+    <div data-role="page" id="nattbuss">
+ 		<div data-role="header">
+	      	<div class="ui-grid-b">
+				<div class="ui-block-a">
+					<div class="ui-bar ui-bar-a" style=height:40px" align="center"><a href="https://www.uka.no/"><img src="uka_11.png" width="70" height="20"></a></div>
+				</div>
+				<div class="ui-block-b">
+					<div class="ui-bar ui-bar-a" style=height:40px" align="center"> <h6 id="friend-name">Nattbuss</h6></div>
+				</div>
+				<div class="ui-block-c">
+					<div class="ui-bar ui-bar-a" style=height:40px" align="right">  <a><img src="refresh-icon.png" width="20" height="20"></a></div>
+				</div>
+	      	</div>
+	  	</div>
+      <div data-role="content">
+      <p>Busser fra Samfundet til</p>
+        <form id="nattbuss-form" name="chat" action="" method="post">
           <div data-role="fieldcontain">
-            <input type="text" name="message" id="chat-message" value="" placeholder="Si noe..."/>
-          </div>
-          <div data-role="fieldcontain">
-            <input type="submit" data-role="button" value="Submit" id="chat-submit"">
+            <input type="text" name="query" id="nattbuss-query" value="" placeholder="Hvor skal du?"/>
+            <div class="ui-grid-a">
+	            <div class="ui-block-a"><a data-role="button" id="buss-submit">Buss</a></div>
+	            <div class="ui-block-b"><a data-role="button" id="nattbuss-submit">Nattbuss</a></div>
+            </div>
           </div>
         </form>
+        <div id="nattbuss-result"></div>
       </div>
       <div data-role="footer">
         <h4></h4>

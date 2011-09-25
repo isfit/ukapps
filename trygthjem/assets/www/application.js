@@ -229,7 +229,7 @@
             	function(){
 	            	try {
 	                	FB.init({
-	                    	appId: "111446192243028",
+	                    	appId: "292141370803181",
 	                    	nativeInterface: PG.FB,
 	                    	cookie: true,
 	                    	xfbml: true
@@ -265,6 +265,34 @@
             }
 
 $(document).ready(function() {
+	$('#nattbuss-submit').click(function() {
+		var dataToPost = ({
+	          quest: 'når går nattbussen fra samfundet til '+ $('#nattbuss-query').val(),
+	          lang: 'sms'
+	        });
+		$('#nattbuss-result').empty();
+		$('#nattbuss-result').append("Henter svar fra bussorakelet");
+	        $.post('http://www.idi.ntnu.no/~tagore/cgi-bin/busstuc/busq.cgi', dataToPost, function(data) {
+	        			var sakligData = data.replace('+','');
+	        			$('#nattbuss-result').empty();
+	        			$('#nattbuss-result').append("<h4>Nattbuss</h4>");
+	        			$('#nattbuss-result').append("<p>"+sakligData+"</p>");
+	        		});
+	});
+	$('#buss-submit').click(function() {
+		var dataToAlsoPost = ({
+          quest: 'når går bussen fra samfundet til '+ $('#nattbuss-query').val(),
+          lang: 'sms'
+        });
+		$('#nattbuss-result').empty();
+		$('#nattbuss-result').append("Henter svar fra bussorakelet");
+        $.post('http://www.idi.ntnu.no/~tagore/cgi-bin/busstuc/busq.cgi', dataToAlsoPost, function(data) {
+        			var sakligData = data.replace('+','');
+        			$('#nattbuss-result').empty();
+        			$('#nattbuss-result').append("<h4>Vanlig buss</h4>");
+        			$('#nattbuss-result').append("<p>"+sakligData+"</p>");
+        		});
+     });
 	$('.friend').click(function() {
 		populateFriend($(this).data("id"));
 	})
