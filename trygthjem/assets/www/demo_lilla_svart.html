@@ -6,18 +6,14 @@
     <meta charset="utf-8" />
     <link rel="stylesheet" href="jquery.css" />
     <script src="http://code.jquery.com/jquery-1.6.2.min.js"></script>
-    <script src="http://code.jquery.com/mobile/1.0b3/jquery.mobile-1.0b3.min.js"></script>
-    <script src="sha1.js"></script>
-    <script src="oauth.js"></script>
-       
+    <script src="http://code.jquery.com/mobile/1.0b3/jquery.mobile-1.0b3.js"></script>
+    
         <!-- phonegap -->
 		<script src="phonegap-1.0.0.js"></script>
 	    <!-- phonegap facebook plugin -->
 		<script src="pg-plugin-fb-connect.js"></script>
 	    <!-- facebook js sdk -->
 		<script src="facebook_js_sdk.js"></script>
-		<!-- BSSID plugin -->
-		<script src="wifibssid.js"></script>
 
     <script src="application.js"></script>
         
@@ -55,8 +51,12 @@
       <div data-role="header">
         <h1>Venner på Samfundet</h1>
       </div>
-      <div id="friends-content" data-role="content">
-      	<p>Hello World</p>
+      <div data-role="content">
+        <div class="ui-grid-b">
+          <div class="ui-block-a"><a href="#friends-1"><img src="http://placehold.it/80x80"/></a></div>
+          <div class="ui-block-b"><img src="http://placehold.it/80x80"/></div>
+          <div class="ui-block-c"><img src="http://placehold.it/80x80"/></div>
+        </div>
         <div id="facebook-friends">
         </div>
       </div>
@@ -64,11 +64,11 @@
         <h4></h4>
       </div>
     </div>
-    <div data-role="page" id="friend">
+    <div data-role="page" id="friends-1">
       <div data-role="header">
-        <h1 id="friend-name">Dag-Inge Aas</h1>
+        <h1>Dag-Inge Aas</h1>
       </div>
-      <div id="friend-content" data-role="content">
+      <div data-role="content">
         <p>Last seen: 17 minutes ago at Klubben</p>
         <a href="#message" data-rel="dialog" data-role="button">Send en melding</a>
       </div>
