@@ -41,8 +41,8 @@
 }
 .ui-body-r {
 	border: 1px solid 		#fff;
-	color: 					#666666;
-	text-shadow: 0 1px 0 	#fff;
+	color: 					#fff;
+	text-shadow: 0 1px 0 	#000;
 	background: 			#780000;
 	background-image: -webkit-gradient(linear, left top, left bottom, from(#a1363c), to(#780000)); /* Saf4+, Chrome */
 	background-image: -webkit-linear-gradient(top, #a1363c, #780000); /* Chrome 10+, Saf5.1+ */
@@ -238,7 +238,7 @@
 -----------------------------------------------------------------------------------------------------------*/
 
 .ui-bar-a {
-	border: 1px solid 		#2A2A2A;
+	//border: 1px solid 		#111;
 	background: 			#111111;
 	color: 					#ffffff;
 	font-weight: bold;
@@ -1282,6 +1282,11 @@ a.ui-link-inherit {
 	top: 0;
 	z-index: 200;
 }
+
+.ui-footer {
+	position: fixed !important; 
+	bottom: 0;
+	}
 .ui-mobile-touch-overflow.ui-page.ui-native-fixed .ui-footer {
 	top: auto;
 	bottom: 0;

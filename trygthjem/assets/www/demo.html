@@ -50,11 +50,11 @@
 		<h6> Du er awesome</h6>
 	  </div>
     </div>
-    <div data-role="page" id="friends">
+    <div data-role="page" id="friends" data-theme="r">
       <div data-role="header">
       	<div class="ui-grid-b">
 			<div class="ui-block-a">
-				<div class="ui-bar ui-bar-a" style=height:40px" align="center"><a href="https://www.uka.no/"><img src="uka_11.png" width="70" height="20"></a></div>
+				<div class="ui-bar ui-bar-a" style=height:40px" align="left"><a href="https://www.uka.no/"><img src="uka.png" width="70" height="20"></a></div>
 			</div>
 			<div class="ui-block-b">
 				<div class="ui-bar ui-bar-a" style=height:40px" align="center"> <h6>Venner på Samfundet</h6></div>
@@ -68,18 +68,18 @@
          <div id="friends-content" data-role="content">
       		<p>Hello World</p>
         	<div id="facebook-friends">
-        	</div>
+			</div>
       	</div>
       </div>
       <div data-role="footer">
         <h5>* ikke sett på Samfundet</h5>
       </div>
     </div>
-    <div data-role="page" id="friend">
+    <div data-role="page" id="friend" data-theme="r">
 	  	 <div data-role="header">
 	      	<div class="ui-grid-b">
 				<div class="ui-block-a">
-					<div class="ui-bar ui-bar-a" style=height:40px" align="center"><a href="https://www.uka.no/"><img src="uka_11.png" width="70" height="20"></a></div>
+					<div class="ui-bar ui-bar-a" style=height:40px" align="center"><a href="https://www.uka.no/"><img src="uka.png" width="70" height="20"></a></div>
 				</div>
 				<div class="ui-block-b">
 					<div class="ui-bar ui-bar-a" style=height:40px" align="center"> <h6 id="friend-name">N/A</h6></div>
@@ -97,7 +97,7 @@
 	    	<h4></h4>
 	  	</div>
 	</div>
-    <div data-role="page" id="friends-1">
+    <div data-role="page" id="friends-1" data-theme="r">
       <div data-role="header">
         <h1>Dag-Inge Aas</h1>
       </div>
@@ -109,11 +109,11 @@
         <h4></h4>
       </div>
     </div>
-    <div data-role="page" id="nattbuss">
+    <div data-role="page" id="nattbuss" data-theme="r">
  		<div data-role="header">
 	      	<div class="ui-grid-b">
 				<div class="ui-block-a">
-					<div class="ui-bar ui-bar-a" style=height:40px" align="center"><a href="https://www.uka.no/"><img src="uka_11.png" width="70" height="20"></a></div>
+					<div class="ui-bar ui-bar-a" style=height:40px" align="center"><a href="https://www.uka.no/"><img src="uka.png" width="70" height="20"></a></div>
 				</div>
 				<div class="ui-block-b">
 					<div class="ui-bar ui-bar-a" style=height:40px" align="center"> <h6 id="friend-name">Nattbuss</h6></div>
@@ -125,12 +125,12 @@
 	  	</div>
       <div data-role="content">
       <p>Busser fra Samfundet til</p>
-        <form id="nattbuss-form" name="chat" action="" method="post">
-          <div data-role="fieldcontain">
-            <input type="text" name="query" id="nattbuss-query" value="" placeholder="Hvor skal du?"/>
+        <form id="nattbuss-form" name="chat" action="" method="post" data-theme="a">
+          <div data-role="fieldcontain" >
+            <input type="text" name="query" data-theme="a" id="nattbuss-query" value="" placeholder="Hvor skal du?"/>
             <div class="ui-grid-a">
-	            <div class="ui-block-a"><a data-role="button" id="buss-submit">Buss</a></div>
-	            <div class="ui-block-b"><a data-role="button" id="nattbuss-submit">Nattbuss</a></div>
+	            <div class="ui-block-a"><a data-role="button" data-theme="a" id="buss-submit">Buss</a></div>
+	            <div class="ui-block-b"><a data-role="button" data-theme="a" id="nattbuss-submit">Nattbuss</a></div>
             </div>
           </div>
         </form>
