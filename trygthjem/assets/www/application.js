@@ -168,7 +168,7 @@
             		$('#friend-name').html(response.name);
             		UkaApi('users/'+ids[1]+'/location', function(resp){
             			$('#friend-content').empty();
-            			$('#friend-content').append('<p>'+((resp==null)?"Ikke sett på Samfundet i det siste":"Sist sett på "+resp.locationName+" "+new Date(lastSeen(ids[1])).toString())+'</p>');
+            			$('#friend-content').append('<p>'+((resp==null)?"Ikke sett på Samfundet i det siste":"Sist sett på "+resp.locationName+" "+ukaDate(new Date(lastSeen(ids[1]))))+'</p>');
             			$('#friend-content').append('<a class="friend-button" href="'+response.link+'" data-role="button">Go to Facebook</a>');
             			
             			findContact(response.name);
@@ -183,6 +183,9 @@
             function refresh(){
             	populateFriendsList();
 				updateBSSID();              
+            }
+            function ukaDate(date) {
+            	return date.getDate()+"/"+(date.getMonth()+1)+" kl. "+date.getHours()+":"+((date.getMinutes() < 10) ? "0" : "" )+ date.getMinutes();
             }
             function getSession() {
                 console.log(JSON.stringify(FB.getSession()));
