@@ -37,7 +37,7 @@
 	           	url = url+'?'+OAuth.formEncode(message.parameters);
 				console.log(url);
 				console.log(data);
-				alert(dataType+" "+data);           	
+				           	
 	           	$.ajax({url: url, success: onReceive, error: function(a, b) {console.log(JSON.stringify(a) + "---" + b); }, async: true, type: "POST", data: data, dataType: dataType });
 	      	}
 	      	function UkaApiPut(url, onReceive, parameters, dataType){
@@ -109,7 +109,7 @@
     								}
     							}	 
             		});
-            	}, function(e) {alert(e);console.log(e);});
+            	}, function(e) {console.log(e);});
             }
 			function lastSeen(fuid){
 				var tida = null;
@@ -193,11 +193,6 @@
             
             function getLoginStatus() {
                 FB.getLoginStatus(function(response) {
-                    if (response.session) {
-                        alert('logged in');
-                    } else {
-                        alert('not logged in');
-                    }
                 });
             }
             
@@ -224,7 +219,7 @@
             
             function logout() {
                 FB.logout(function(response) {
-                    alert('logged out');
+                    
                 });
             }
             
@@ -238,7 +233,7 @@
                        	SyncedUkaApi('auth/login', function(data){console.log(data); ukaapi_token = data;}, {facebookToken: FB.getSession().access_token});
 	                    refresh();
                     },
-                    { perms: "email" }
+                    { perms: "user_location" }
                 );
             }
 
@@ -253,7 +248,7 @@
 	                    });
 	                 	login();
 	             	} catch (e) {
-	                   	alert(e);
+	                   	
 	                }
         		}, false);
             
