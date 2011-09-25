@@ -13,6 +13,10 @@
 */
 /* R
 -----------------------------------------------------------------------------------------------------------*/
+#friends a, #friends a:visited, #friends a:hover, #friends a:active {
+	text-decoration: none;
+	color: white;
+}
 
 .ui-bar-r {
 	border: 1px solid 		#fff;
@@ -69,7 +73,7 @@
 	border: 1px solid 		#800000;
 	background: 			#666666;
 	font-weight: bold;
-	/*farge på teksten*/
+	/*farge pï¿½ teksten*/
 	color: 					#fff;
 	text-shadow: 0 1px 1px #000;
 	background-image: -webkit-gradient(linear, left top, left bottom, from(#981B1E), to(#981B1E)); /* Saf4+, Chrome */
@@ -181,7 +185,7 @@
 	border: 1px solid 		#222;
 	background: 			#333333;
 	font-weight: bold;
-	/*farge på teksten*/
+	/*farge pï¿½ teksten*/
 	color: 					#fff;
 	text-shadow: 0 -1px 1px #000;
 	background-image: -webkit-gradient(linear, left top, left bottom, from(#673393), to(#673393)); /* Saf4+, Chrome */
