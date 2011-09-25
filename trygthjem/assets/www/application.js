@@ -7,7 +7,6 @@
 			
             FB.Event.subscribe('auth.login', function(response) {
                 console.log('auth.login event');
-                populateFriendsList();
             });
             
             FB.Event.subscribe('auth.logout', function(response) {
@@ -41,6 +40,22 @@
 				alert(dataType+" "+data);           	
 	           	$.ajax({url: url, success: onReceive, error: function(a, b) {console.log(JSON.stringify(a) + "---" + b); }, async: true, type: "POST", data: data, dataType: dataType });
 	      	}
+	      	function UkaApiPut(url, onReceive, parameters, dataType){
+                var url = 'http://findmyapp.net/findmyapp/'+url;
+          		var accessor = {
+               		consumerKey: '6b2d7fe03b4bb7ea775f63119e92ea468204aaf1',
+               		consumerSecret: 'bab92e0c1945459dfea90772b36189d9e68dfdae'
+               	};
+               	var message = {
+               		action: url,
+               		method: "PUT",
+               		parameters: parameters
+               	};
+               	OAuth.completeRequest(message, accessor);
+	           	OAuth.SignatureMethod.sign(message, accessor);
+	           	url = url+'?'+OAuth.formEncode(message.parameters);
+	           	$.ajax({url: url, success: onReceive, error: function(a, b) {console.log(url+" ------- "+JSON.stringify(a) + "---" + b); }, async: true, type: "PUT", dataType: dataType });
+	      	}
 	      	function SyncedUkaApi(url, onReceive, parameters){
             	var url = 'http://findmyapp.net/findmyapp/'+url;
           		var accessor = {
@@ -54,9 +69,8 @@
                	};
                	OAuth.completeRequest(message, accessor);
 	           	OAuth.SignatureMethod.sign(message, accessor);
-	           	url = url+'?'+OAuth.formEncode(message.parameters);
-				console.log(url);           	
-	           	$.ajax({url: url, success: onReceive, error: function(a, b) {console.log(JSON.stringify(a) + "---" + b); },  async: false, dataType: "json" });
+	           	url = url+'?'+OAuth.formEncode(message.parameters);          	
+	           	$.ajax({url: url, success: onReceive, error: function(a, b) {console.log(url+" ------- "+JSON.stringify(a) + "---" + b); },  async: false, dataType: "json" });
             }
            	function UkaApi(url, onReceive, parameters){
             	var url = 'http://findmyapp.net/findmyapp/'+url;
@@ -71,18 +85,31 @@
                	};
                	OAuth.completeRequest(message, accessor);
 	           	OAuth.SignatureMethod.sign(message, accessor);
-	           	url = url+'?'+OAuth.formEncode(message.parameters);
-				console.log(url);           	
-	           	$.ajax({url: url, success: onReceive, error: function(a, b) {console.log(JSON.stringify(a) + "---" + b); },  async: true, dataType: "json" });
+	           	url = url+'?'+OAuth.formEncode(message.parameters); 
+	           	console.log(url);         	
+	           	$.ajax({url: url, success: onReceive, error: function(a, b) {url+" ------- "+console.log(JSON.stringify(a) + "---" + b); },  async: true, dataType: "json" });
             }
             function updateBSSID(){
             	window.plugins.wifiBssid.list("", function(r) {
             		console.log(JSON.stringify(r.wifiList)); 
             		alert(JSON.stringify(r.wifiList));
-            		UkaApiPost('locations', function(response) {
-            			alert(response);
-            			console.log(response);
-            		}, {token: ukaapi_token} , JSON.stringify(r.wifiList), "json"); 
+            		var datating = JSON.stringify(r.wifiList);
+            		console.log(datating);
+            		$.ajax({	url: "http://findmyapp.net/findmyapp/locations", 
+            					success: function(data){
+            						UkaApiPut('users/me/location/'+data.locationId, function(data1){console.log("Ny lokasjon registrert");}, {token: ukaapi_token}, "");
+            						alert(JSON.stringify("Her er du: "+data.locationName));
+            					}, 
+            					async: true, 
+            					type: "POST",
+     							contentType: 'application/json',
+            					data: datating,
+            					statusCode: {
+    								404: function() {
+    									console.log("404 NOT FOUND");
+    								}
+    							}	 
+            		});
             	}, function(e) {alert(e);console.log(e);});
             }
             
@@ -139,7 +166,10 @@
             	})
             	
             }
-            
+            function refresh(){
+            	populateFriendsList();
+				updateBSSID();              
+            }
             function getSession() {
                 console.log(JSON.stringify(FB.getSession()));
             }
@@ -189,8 +219,7 @@
                     function(e) {
                         console.log(e);
                        	SyncedUkaApi('auth/login', function(data){console.log(data); ukaapi_token = data;}, {facebookToken: FB.getSession().access_token});
-                       	updateBSSID();                
-                       	
+	                    refresh();
                     },
                     { perms: "email" }
                 );
