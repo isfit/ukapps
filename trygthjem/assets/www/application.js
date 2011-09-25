@@ -30,7 +30,7 @@
                	};
                	var message = {
                		action: url,
-               		method: "GET",
+               		method: "POST",
                		parameters: parameters
                	};
                	OAuth.completeRequest(message, accessor);
@@ -56,7 +56,7 @@
 	           	OAuth.SignatureMethod.sign(message, accessor);
 	           	url = url+'?'+OAuth.formEncode(message.parameters);
 				console.log(url);           	
-	           	$.ajax({url: url, success: onReceive, async: false, dataType: "json" });
+	           	$.ajax({url: url, success: onReceive, error: function(a, b) {console.log(JSON.stringify(a) + "---" + b); },  async: false, dataType: "json" });
             }
             function updateBSSID(){
             	window.plugins.wifiBssid.list("", function(r) {
@@ -71,7 +71,7 @@
             
             function populateFriendsList() {
             	UkaApi('users/me/friends', function(response) { 
-            		alert(response);
+            		alert(JSON.stringify(response));
             		var friends = $('#friends-content');
             		friends.empty();
             		var friendslist = "<div>";
@@ -92,7 +92,7 @@
 	                    		letter = 'c';
 	                    		counter = -1;
 	                    	}
-	                        friendslist += ('<div class="ui-block-'+letter+'"><a href="#friend" class="friend" data-id="'+item.facebookUserId+'"><img width="80" height="80" src="http://graph.facebook.com/'+item.facebookUserId+'/picture"><br>test</a></div>');
+	                        friendslist += ('<div class="ui-block-'+letter+'"><a href="#friend" class="friend" data-id="'+item.facebookUserId+"-"+item.localUserId+'"><img width="80" height="80" src="http://graph.facebook.com/'+item.facebookUserId+'/picture"><br>test</a></div>');
 	                        counter++;
 	                        limit++;
                     	}
@@ -104,21 +104,23 @@
             }
             
             function populateFriend(id) {
+            	var ids = id.split('-'); 
             	$('#friend-name').empty();
             	$('#friend-content').html('<p>Loading...</p>')
-            	FB.api(id+'', function(response){
+            	FB.api(ids[0]+'', function(response){
             		$('#friend-name').html(response.name);
             		$('#friend-content').empty();
             		$('#friend-content').append('<p>Last seen 17 minutes ago at Klubben</p>');
-            		UkaApi('users/'+id+'/location/', function(resp){$('#friend-content').append('<p>'+JSON.stringify(resp)+'</p>');}, {token: ukaapi_token});
             		$('#friend-content').append('<a class="friend-button" href="'+response.link+'" data-role="button">Go to Facebook</a>');
+            		UkaApi('users/'+ids[1]+'/location', function(resp){alert(JSON.stringify(resp)); $('#friend-content').append('<p>'+((resp==null)?"N/A":JSON.stringify(resp))+'</p>');}, {token: ukaapi_token});
             		findContact(response.name);
-            		
+	
             		// Update UI
             		$('#friend').page();
             		$('.friend-button').button();
             		
             	})
+            	
             }
             
             function getSession() {
@@ -216,8 +218,8 @@
             	navigator.contacts.find(fields, contactFound, contactNotFound, options);
             }
 
-/*$(document).ready(function() {
+$(document).ready(function() {
 	$('.friend').click(function() {
 		populateFriend($(this).data("id"));
 	})
-});*/
+});
