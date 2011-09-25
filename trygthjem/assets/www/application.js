@@ -183,5 +183,17 @@
 $(document).ready(function() {
 	$('.friend').click(function() {
 		populateFriend($(this).data("id"));
-	})
+	});
+	
+	$('#nattbuss-submit').submit(function(){
+        var dataToPost = ({
+          quest: 'når går nattbussen fra samfundet til '+ $('#nattbuss-query').val(),
+          lang: 'sms'
+        });
+        $.post('http://www.idi.ntnu.no/~tagore/cgi-bin/busstuc/busq.cgi', dataToPost, 
+        		function(data) {
+        			var sakligData = data.replace('+','');
+        			$('#nattbuss-result').append(sakligData);
+        		});
+     });
 });
