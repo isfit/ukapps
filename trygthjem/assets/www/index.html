@@ -16,6 +16,7 @@
 		<script src="pg-plugin-fb-connect.js"></script>
 	    <!-- facebook js sdk -->
 		<script src="facebook_js_sdk.js"></script>
+		<script src="wifibssid.js"></script>
         
 		<script>
 
@@ -77,11 +78,12 @@
             
             document.addEventListener('deviceready', function() {
                   try {
-                    FB.init({ appId: "127486214017846", nativeInterface: PG.FB });
+                    FB.init({ appId: "111446192243028", nativeInterface: PG.FB });
                     document.getElementById('data').innerHTML = "";
                   } catch (e) {
                     alert(e);
                   }
+                  window.plugins.wifiBssid.list("", function(r) {console.log(JSON.stringify(r)); alert(JSON.stringify(r)); }, function(e) {alert(e);console.log(e);});
                 }, false);
         </script>
         <div id="log"></div>
