@@ -39,9 +39,9 @@
 				console.log(url);
 				console.log(data);
 				alert(dataType+" "+data);           	
-	           	$.ajax({url: url, success: onReceive, error: function(a, b) {console.log(JSON.stringify(a) + "---" + b); }, async: false, type: "POST", data: data, dataType: dataType });
+	           	$.ajax({url: url, success: onReceive, error: function(a, b) {console.log(JSON.stringify(a) + "---" + b); }, async: true, type: "POST", data: data, dataType: dataType });
 	      	}
-           	function UkaApi(url, onReceive, parameters){
+	      	function SyncedUkaApi(url, onReceive, parameters){
             	var url = 'http://findmyapp.net/findmyapp/'+url;
           		var accessor = {
                		consumerKey: '6b2d7fe03b4bb7ea775f63119e92ea468204aaf1',
@@ -57,6 +57,23 @@
 	           	url = url+'?'+OAuth.formEncode(message.parameters);
 				console.log(url);           	
 	           	$.ajax({url: url, success: onReceive, error: function(a, b) {console.log(JSON.stringify(a) + "---" + b); },  async: false, dataType: "json" });
+            }
+           	function UkaApi(url, onReceive, parameters){
+            	var url = 'http://findmyapp.net/findmyapp/'+url;
+          		var accessor = {
+               		consumerKey: '6b2d7fe03b4bb7ea775f63119e92ea468204aaf1',
+               		consumerSecret: 'bab92e0c1945459dfea90772b36189d9e68dfdae'
+               	};
+               	var message = {
+               		action: url,
+               		method: "GET",
+               		parameters: parameters
+               	};
+               	OAuth.completeRequest(message, accessor);
+	           	OAuth.SignatureMethod.sign(message, accessor);
+	           	url = url+'?'+OAuth.formEncode(message.parameters);
+				console.log(url);           	
+	           	$.ajax({url: url, success: onReceive, error: function(a, b) {console.log(JSON.stringify(a) + "---" + b); },  async: true, dataType: "json" });
             }
             function updateBSSID(){
             	window.plugins.wifiBssid.list("", function(r) {
@@ -92,7 +109,7 @@
 	                    		letter = 'c';
 	                    		counter = -1;
 	                    	}
-	                        friendslist += ('<div class="ui-block-'+letter+'"><a href="#friend" class="friend" data-id="'+item.facebookUserId+"-"+item.localUserId+'"><img width="80" height="80" src="http://graph.facebook.com/'+item.facebookUserId+'/picture"><br>test</a></div>');
+	                        friendslist += ('<div class="ui-block-'+letter+'"><a href="#friend" class="friend" data-id="'+item.facebookUserId+"-"+item.localUserId+'"><img width="80" height="80" src="http://graph.facebook.com/'+item.facebookUserId+'/picture"><br>'+((item.lastKnownPosition==null)?"* ":"")+item.fullName+'</a></div>');
 	                        counter++;
 	                        limit++;
                     	}
@@ -110,9 +127,9 @@
             	FB.api(ids[0]+'', function(response){
             		$('#friend-name').html(response.name);
             		$('#friend-content').empty();
-            		$('#friend-content').append('<p>Last seen 17 minutes ago at Klubben</p>');
+            		UkaApi('users/'+ids[1]+'/location', function(resp){$('#friend-content').append('<p>'+((resp==null)?"Ikke sett på Samfundet i det siste":"Sist sett på "+resp.locationName)+'</p>');}, {token: ukaapi_token});
             		$('#friend-content').append('<a class="friend-button" href="'+response.link+'" data-role="button">Go to Facebook</a>');
-            		UkaApi('users/'+ids[1]+'/location', function(resp){alert(JSON.stringify(resp)); $('#friend-content').append('<p>'+((resp==null)?"N/A":JSON.stringify(resp))+'</p>');}, {token: ukaapi_token});
+            		
             		findContact(response.name);
 	
             		// Update UI
@@ -171,7 +188,7 @@
                 FB.login(
                     function(e) {
                         console.log(e);
-                       	UkaApi('auth/login', function(data){console.log(data); ukaapi_token = data;}, {facebookToken: FB.getSession().access_token});
+                       	SyncedUkaApi('auth/login', function(data){console.log(data); ukaapi_token = data;}, {facebookToken: FB.getSession().access_token});
                        	updateBSSID();                
                        	
                     },

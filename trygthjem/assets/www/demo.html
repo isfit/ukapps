@@ -24,51 +24,84 @@
         
   </head>
   <body>
-    <div data-role="page" id="main">
-      <div data-role="header">
-        <h1>UKA Trygt Hjem</h1>
-      </div>
+    <div data-role="page" id="main" data-theme="r">
+      <div data-role="header" >
+	  <div class="ui-grid-b">
+		<div class="ui-block-a">
+			<div class="ui-bar ui-bar-a" style=height:40px" align="center"><a href="https://www.uka.no/"><img src="uka_11.png" width="70" height="20"></a></div>
+		</div>
+		<div class="ui-block-b">
+			<div class="ui-bar ui-bar-a" style=height:40px" align="center"> <h6>TRYGT HJEM </h6></div>
+		</div>
+		<div class="ui-block-c">
+			<div class="ui-bar ui-bar-a" style=height:40px" align="right"> <a><img src="refresh-icon.png" width="20" height="20"></a></div>
+		</div>
+	</div>
+	  </div>
       <div data-role="content" id="one">
-        <a href="#friends" data-role="button" data-theme="l">Ta meg hjem</a>
-        <a href="" data-role="button" data-theme="l">Taxi</a>
-        <a href="" data-role="button" data-theme="l">Nattbuss</a>
-      </div>
-      <div data-role="footer">
-        <h6>Du er awesome!</h6>
-      </div>
-    </div>
-    <div data-role="page" id="friends-old">
-      <div data-role="header">
-        <h1>Venner på Samfundet</h1>
-      </div>
-      <div data-role="content">
-        <ul id="friends" data-role="listview">
-          <li><img src="http://placehold.it/80x80"/>Dag-Inge Aas</li>
-          <li><img src="http://placehold.it/80x80"/>Iver Dihle Skjervum</li>
-        </ul>
-      </div>
-      <div data-role="footer">
-        <h4></h4>
-      </div>
+	  <table align="center">
+		<tr><td align="center"><a href="#friends"><img src="logo1.png"  height="100"></a></td></tr>
+		<tr><td align="center"><a href=""><img src="buss.png" height="100"></a></td></tr>
+        <tr><td align="center"><a href=""><img src="taxi.png" height="100"> </a></td></tr>
+      </table>
+	  </div>
+      <div data-role="footer" data-theme="a">
+		<h6> Du er awesome</h6>
+	  </div>
     </div>
     <div data-role="page" id="friends">
       <div data-role="header">
-        <h1>Venner på Samfundet</h1>
+      	<div class="ui-grid-b">
+			<div class="ui-block-a">
+				<div class="ui-bar ui-bar-a" style=height:40px" align="center"><a href="https://www.uka.no/"><img src="uka_11.png" width="70" height="20"></a></div>
+			</div>
+			<div class="ui-block-b">
+				<div class="ui-bar ui-bar-a" style=height:40px" align="center"> <h6>Venner på Samfundet</h6></div>
+			</div>
+			<div class="ui-block-c">
+				<div class="ui-bar ui-bar-a" style=height:40px" align="right">  <a><img src="refresh-icon.png" width="20" height="20"></a></div>
+			</div>
+      	</div>
       </div>
-      <div id="friends-content" data-role="content">
-      	<p>Hello World</p>
-        <div id="facebook-friends">
-        </div>
+      <div data-role="content">
+         <div id="friends-content" data-role="content">
+      		<p>Hello World</p>
+        	<div id="facebook-friends">
+        	</div>
+      	</div>
       </div>
       <div data-role="footer">
-        <h4></h4>
+        <h5>* ikke sett på Samfundet</h5>
       </div>
     </div>
     <div data-role="page" id="friend">
+	  	<div data-role="header">
+	  	      <div data-role="header">
+	      	<div class="ui-grid-b">
+				<div class="ui-block-a">
+					<div class="ui-bar ui-bar-a" style=height:40px" align="center"><a href="https://www.uka.no/"><img src="uka_11.png" width="70" height="20"></a></div>
+				</div>
+				<div class="ui-block-b">
+					<div class="ui-bar ui-bar-a" style=height:40px" align="center"> <h6 id="friend-name">N/A</h6></div>
+				</div>
+				<div class="ui-block-c">
+					<div class="ui-bar ui-bar-a" style=height:40px" align="right">  <a><img src="refresh-icon.png" width="20" height="20"></a></div>
+				</div>
+	      	</div>
+	  	</div>
+	  	<div id="friend-content" data-role="content">
+	    	<p>N/A</p>
+	    	<a href="#message" data-rel="dialog" data-role="button">Send en melding</a>
+	  	</div>
+	  	<div data-role="footer">
+	    	<h4></h4>
+	  	</div>
+	</div>
+    <div data-role="page" id="friends-1">
       <div data-role="header">
-        <h1 id="friend-name">Dag-Inge Aas</h1>
+        <h1>Dag-Inge Aas</h1>
       </div>
-      <div id="friend-content" data-role="content">
+      <div data-role="content">
         <p>Last seen: 17 minutes ago at Klubben</p>
         <a href="#message" data-rel="dialog" data-role="button">Send en melding</a>
       </div>
