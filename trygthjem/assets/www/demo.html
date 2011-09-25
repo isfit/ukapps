@@ -31,8 +31,8 @@
       </div>
       <div data-role="content" id="one">
         <a href="#friends" data-role="button" data-theme="l">Ta meg hjem</a>
-        <a href="" data-role="button" data-theme="l">Taxi</a>
-        <a href="" data-role="button" data-theme="l">Nattbuss</a>
+        <a href="tel:02393" data-role="button" data-theme="l">Taxi</a>
+        <a href="#nattbuss" data-role="button" data-theme="l">Nattbuss</a>
       </div>
       <div data-role="footer">
         <h6>Du er awesome!</h6>
@@ -82,12 +82,13 @@
         <h1>Nattbuss</h1>
       </div>
       <div data-role="content">
-        <form name="chat" action="" method="post">
+      <p>Busser fra Samfundet til</p>
+        <form id="nattbuss-form" name="chat" action="" method="post">
           <div data-role="fieldcontain">
             <input type="text" name="query" id="nattbuss-query" value="" placeholder="Hvor skal du?"/>
             <div class="ui-grid-a">
-	            <div class="ui-block-a"></div>
-	            <div class="ui-block-b"><input type="submit" data-role="button" value="Submit" id="nattbuss-submit"></div>
+	            <div class="ui-block-a"><a data-role="button" id="buss-submit">Buss</a></div>
+	            <div class="ui-block-b"><a data-role="button" id="nattbuss-submit">Nattbuss</a></div>
             </div>
           </div>
         </form>
