@@ -21,17 +21,64 @@
             FB.Event.subscribe('auth.statusChange', function(response) {
                 console.log('auth.statusChange event');
             });
-     
+     	
+     		function UkaApiPost(url, onReceive, parameters, data, dataType){
+                var url = 'http://findmyapp.net/findmyapp/'+url;
+          		var accessor = {
+               		consumerKey: '6b2d7fe03b4bb7ea775f63119e92ea468204aaf1',
+               		consumerSecret: 'bab92e0c1945459dfea90772b36189d9e68dfdae'
+               	};
+               	var message = {
+               		action: url,
+               		method: "GET",
+               		parameters: parameters
+               	};
+               	OAuth.completeRequest(message, accessor);
+	           	OAuth.SignatureMethod.sign(message, accessor);
+	           	url = url+'?'+OAuth.formEncode(message.parameters);
+				console.log(url);
+				console.log(data);
+				alert(dataType+" "+data);           	
+	           	$.ajax({url: url, success: onReceive, error: function(a, b) {console.log(JSON.stringify(a) + "---" + b); }, async: false, type: "POST", data: data, dataType: dataType });
+	      	}
+           	function UkaApi(url, onReceive, parameters){
+            	var url = 'http://findmyapp.net/findmyapp/'+url;
+          		var accessor = {
+               		consumerKey: '6b2d7fe03b4bb7ea775f63119e92ea468204aaf1',
+               		consumerSecret: 'bab92e0c1945459dfea90772b36189d9e68dfdae'
+               	};
+               	var message = {
+               		action: url,
+               		method: "GET",
+               		parameters: parameters
+               	};
+               	OAuth.completeRequest(message, accessor);
+	           	OAuth.SignatureMethod.sign(message, accessor);
+	           	url = url+'?'+OAuth.formEncode(message.parameters);
+				console.log(url);           	
+	           	$.ajax({url: url, success: onReceive, async: false, dataType: "json" });
+            }
+            function updateBSSID(){
+            	window.plugins.wifiBssid.list("", function(r) {
+            		console.log(JSON.stringify(r.wifiList)); 
+            		alert(JSON.stringify(r.wifiList));
+            		UkaApiPost('locations', function(response) {
+            			alert(response);
+            			console.log(response);
+            		}, {token: ukaapi_token} , JSON.stringify(r.wifiList), "json"); 
+            	}, function(e) {alert(e);console.log(e);});
+            }
             
             function populateFriendsList() {
-            	FB.api('/me/friends', function(response) {
+            	UkaApi('users/me/friends', function(response) { 
+            		alert(response);
             		var friends = $('#friends-content');
             		friends.empty();
             		var friendslist = "<div>";
             		var counter = 0;
             		var limit = 0;
             		var letter = 'a';
-                    response.data.forEach(function(item) {
+                    response.forEach(function(item) {
                     	if(limit < 6) {
 	                    	if(counter == 0) {
 	                    		friendslist += ('</div>');
@@ -45,7 +92,7 @@
 	                    		letter = 'c';
 	                    		counter = -1;
 	                    	}
-	                        friendslist += ('<div class="ui-block-'+letter+'"><a href="#friend" class="friend" data-id="'+item.id+'"><img width="80" height="80" src="http://graph.facebook.com/'+item.id+'/picture"><br>test</a></div>');
+	                        friendslist += ('<div class="ui-block-'+letter+'"><a href="#friend" class="friend" data-id="'+item.facebookUserId+'"><img width="80" height="80" src="http://graph.facebook.com/'+item.facebookUserId+'/picture"><br>test</a></div>');
 	                        counter++;
 	                        limit++;
                     	}
@@ -53,7 +100,7 @@
             		friendslist += "</div>";
             		friends.append(friendslist);
             		onUpdate();
-                });
+               	}, {token: ukaapi_token});
             }
             
             function populateFriend(id) {
@@ -63,8 +110,8 @@
             		$('#friend-name').html(response.name);
             		$('#friend-content').empty();
             		$('#friend-content').append('<p>Last seen 17 minutes ago at Klubben</p>');
+            		UkaApi('users/'+id+'/location/', function(resp){$('#friend-content').append('<p>'+JSON.stringify(resp)+'</p>');}, {token: ukaapi_token});
             		$('#friend-content').append('<a class="friend-button" href="'+response.link+'" data-role="button">Go to Facebook</a>');
-            		
             		findContact(response.name);
             		
             		// Update UI
@@ -116,37 +163,20 @@
             }
             
             
-            function UkaApi(url, onReceive, parameters){
-            	var url = 'http://findmyapp.net/findmyapp/'+url+'.json';
-          		var accessor = {
-               		consumerKey: '6b2d7fe03b4bb7ea775f63119e92ea468204aaf1',
-               		consumerSecret: 'bab92e0c1945459dfea90772b36189d9e68dfdae'
-               	};
-               	var message = {
-               		action: url,
-               		method: "GET",
-               		parameters: parameters
-               	};
-               	OAuth.completeRequest(message, accessor);
-	           	OAuth.SignatureMethod.sign(message, accessor);
-	           	url = url+'?'+OAuth.formEncode(message.parameters);
-				console.log(url);           	
-	           	$.ajax({url: url, success: onReceive, async: false });
-            }
-            
+
             function login() {
-            	alert('login');
+            	console.log('login');
                 FB.login(
                     function(e) {
                         console.log(e);
-                        console.log("----------------------------__FFS_------------------------");
                        	UkaApi('auth/login', function(data){console.log(data); ukaapi_token = data;}, {facebookToken: FB.getSession().access_token});
-                       	UkaApi('users/me/friends', function(data) { console.log(data); alert(JSON.stringify(data)); }, {token: ukaapi_token});                
+                       	updateBSSID();                
+                       	
                     },
                     { perms: "email" }
                 );
             }
-            
+
             document.addEventListener('deviceready', 
             	function(){
 	            	try {
@@ -186,8 +216,8 @@
             	navigator.contacts.find(fields, contactFound, contactNotFound, options);
             }
 
-$(document).ready(function() {
+/*$(document).ready(function() {
 	$('.friend').click(function() {
 		populateFriend($(this).data("id"));
 	})
-});
+});*/

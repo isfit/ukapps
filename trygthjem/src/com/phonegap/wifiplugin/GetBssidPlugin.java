@@ -40,8 +40,10 @@ public class GetBssidPlugin extends Plugin {
 			Log.d("BssidPlugin", "Wifi found!");
 			JSONObject obj = new JSONObject();
 			try {
+				obj.put("id", 1);
 				obj.put("bssid", scanResult.BSSID);
-				obj.put("level", scanResult.level);
+				obj.put("signalStrength", scanResult.level);
+				obj.put("sampleId", Math.round(Math.random()*10));
 			} catch (JSONException e) {
 				Log.d("BssidPlugin", "Got exception in obj.put");
 			}
